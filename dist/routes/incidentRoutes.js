@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const incidentController_1 = require("../controller/incidentController");
+exports.incidentRoutes = express_1.Router();
+exports.incidentControllerObj = new incidentController_1.IncidentController();
+exports.incidentRoutes.post('/create', exports.incidentControllerObj.createIncident);
+exports.incidentRoutes.put('/update/:Id', exports.incidentControllerObj.updateIncident);
+exports.incidentRoutes.get('/getIncidentByGroup', exports.incidentControllerObj.getIncidentByGroup);
+exports.incidentRoutes.get('/getAllIncidents', exports.incidentControllerObj.getAllIncidents);
