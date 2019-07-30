@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 export const incidentSchema = new mongoose.Schema({
     "IncidentDetails" : {
-        "Incident Number" : {
+        "IncidentNumber" : {
             type: String,
             required: true
         },
@@ -140,8 +140,7 @@ export const userSchema = new mongoose.Schema({
         unique: true
     },
     "PhoneNo" : {
-        type:String,
-        unique:true
+        type:String
     },
     "UserId":{
         type: String,

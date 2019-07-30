@@ -1,5 +1,7 @@
 import express from "express"
 import { userRoutes } from "../Routes/userRoutes";
+import { groupRoutes } from "../Routes/groupRoutes";
+import { incidentRoutes } from "../Routes/incidentRoutes";
 export class Routes{
 
     public static configRoutes(app:express.Application){
@@ -11,6 +13,8 @@ export class Routes{
         });
 
         app.use("/api/user",userRoutes);
+        app.use("/api/group",groupRoutes);
+        app.use("/api/incident",incidentRoutes);
     }
 
 }

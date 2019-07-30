@@ -1,5 +1,5 @@
 import express from "express";
-import { userModel } from "../Model/Model";
+import { userModel, groupModel, incidentModel } from "../Model/Model";
 import { ResponseModel } from "../Helper/Helper";
 
 export class Services{
@@ -10,6 +10,28 @@ export class Services{
 
             let newUser = new userModel(req.body);
             await newUser.save();
+            if(req.body.Group.length > 0){
+
+                let group = req.body.Group;
+                group.forEach(async (cur:any)=>{
+
+                    console.log(cur);
+                    let gr = await groupModel.updateOne(
+
+                        {"_id":cur},
+                        {
+                            $push:{
+                            "GroupMembers":newUser._id
+                            }
+                        }
+
+                    );
+                    // await groupModel.findOne({"_id":cur}).populate({path:'GroupMembers',Model:userModel});
+                });
+
+
+
+            }
             return ResponseModel.isValidResponse(newUser);
 
         }catch(err){
@@ -66,32 +88,23 @@ export class Services{
                 "PhoneNo":req.body.PhoneNo,
                 "Password":req.body.Password,
                 "Role":req.body.Role,
+                "Group":req.body.Group,
                 "UpdateDate":Date.now()
             });
 
-            return ResponseModel.isValidResponse(updateUser);
+           if(req.body.Group.length > 0){
 
-        }catch(err){
+            let groups = req.body.Group;
+            groups.forEach( async (cur:any)=>{
 
-            return ResponseModel.isInValidResponse(err);
+                // await groupModel.update(
+                //     {"GroupMembers":req.body.UserId},
+                //     {"GroupMembers":[]}
+                // )
 
-        }
+            })
 
-    }
-
-    public static async updategroup(req:express.Request){
-
-        try{
-
-            // First we need to find group.
-            let updateUser = await userModel.updateOne(
-            {
-                'UserId':req.body.UserId
-            },
-            {
-                $push:{"Group":req.body.Group},
-                "UpdateDate":Date.now()
-            });
+           }
 
             return ResponseModel.isValidResponse(updateUser);
 
@@ -148,7 +161,103 @@ export class Services{
 
         }
        
+    }
 
+    public static async createGroup(req:express.Request){
+
+        try{
+
+            let newGroup = new groupModel(req.body);
+            await newGroup.save();
+            return ResponseModel.isValidResponse(newGroup);
+
+        }catch(err){
+
+            return ResponseModel.isInValidResponse(err);
+
+        }
+
+    }
+
+    public static async updategroup(req:express.Request){
+
+        try{
+
+            let group = await groupModel.updateOne(
+                {"GroupId":req.body.GroupId},
+                {
+                    $set:{
+
+                        "Name":req.body.Name,
+                        "Email":req.body.Email,
+                        "Manager":req.body.Manager,
+                        "GroupMembers":req.body.GroupMembers
+
+                    }
+                }
+            ).exec();
+            return ResponseModel.isValidResponse(group);
+
+        }catch(err){
+
+            return ResponseModel.isInValidResponse(err);
+
+        }
+
+    }
+
+    public static async createIncident(req:express.Request){
+
+        try{
+
+            let newIncident = await new incidentModel(req.body);
+            return ResponseModel.isValidResponse(newIncident);
+
+        }catch(err){
+
+            return ResponseModel.isInValidResponse(err);
+
+        }
+
+    }
+
+    public static async updateIncident(req:express.Request){
+
+        try{
+
+            let result = incidentModel.update(
+                {
+                    "IncidentNumber":req.body.incNum
+                },
+                {
+                    $set:{
+                    
+                        "Caller":req.body.Caller,
+                        "OnBehalfOf":req.body.OnBehalfOf,
+                        "Category":req.body.Category,
+                        "SubCategory":req.body.SubCategory,
+                        "ConfigurationItem":req.body.CI,
+                        "State":req.body.State,
+                        "Impact":req.body.Impact,
+                        "Urgency":req.body.Urgency,
+                        "AssignmentGroup":req.body.AG,
+                        "AssignedTo":req.body.AT,
+                        "ShortDescription":req.body.SD,
+                        "Description":req.body.Des,
+                        "UpdateDate":Date.now()
+        
+                    }
+                }
+                
+            ).exec();
+
+            return ResponseModel.isValidResponse(result);
+
+        }catch(err){
+
+            return ResponseModel.isInValidResponse(err);
+
+        }
 
     }
 
