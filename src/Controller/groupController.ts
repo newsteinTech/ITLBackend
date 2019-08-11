@@ -11,6 +11,13 @@ export class groupController{
 
     }
 
+    public async getGroups(req:express.Request,res:express.Response){
+
+        let result = await Services.getAllGroups();
+        res.send(result);
+
+    }
+
     public async updateGroup(req:express.Request,res:express.Response){
 
         let result = await Services.updategroup(req);

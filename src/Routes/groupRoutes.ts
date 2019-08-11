@@ -8,3 +8,4 @@ groupRoutes.get("/",(req:Request,res:Response)=>{
 })
 groupRoutes.post("/createGroup",grpConObj.createGroup);
 groupRoutes.post("/updateGroup",grpConObj.updateGroup);
+groupRoutes.get("/getGroups",grpConObj.getGroups);

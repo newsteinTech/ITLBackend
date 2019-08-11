@@ -8,3 +8,7 @@ incidentRoutes.get("/",(req:Request,res:Response)=>{
     res.send("From incident routes");
 
 })
+incidentRoutes.post("/createIncident",incConObj.createIncident);
+incidentRoutes.post("/updateIncident",incConObj.updateIncident);
+incidentRoutes.get("/getAllIncident",incConObj.getAllIncident);
+incidentRoutes.get("/incNum",incConObj.getIncNumber);

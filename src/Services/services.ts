@@ -3,7 +3,7 @@ import { userModel, groupModel, incidentModel } from "../Model/Model";
 import { ResponseModel } from "../Helper/Helper";
 
 export class Services{
-
+    //////////////////// USERS SERVICES \\\\\\\\\\\\\\\\\\\\\
     public static async CreateUser(req:express.Request){
 
         try{
@@ -48,7 +48,7 @@ export class Services{
 
             let user = await userModel.find({
                 'UserId':req.body.UserId
-            });
+            }).populate("Group").exec();
 
             return ResponseModel.isValidResponse(user);
 
@@ -163,6 +163,7 @@ export class Services{
        
     }
 
+    //////////////////// GROUP SERVICES \\\\\\\\\\\\\\\\\\\\\
     public static async createGroup(req:express.Request){
 
         try{
@@ -170,6 +171,21 @@ export class Services{
             let newGroup = new groupModel(req.body);
             await newGroup.save();
             return ResponseModel.isValidResponse(newGroup);
+
+        }catch(err){
+
+            return ResponseModel.isInValidResponse(err);
+
+        }
+
+    }
+
+    public static async getAllGroups(){
+
+        try{
+
+            let groups = await groupModel.find().populate("GroupMembers");
+            return ResponseModel.isValidResponse(groups);
 
         }catch(err){
 
@@ -205,12 +221,14 @@ export class Services{
         }
 
     }
+    //////////////////// INCIDENT SERVICES \\\\\\\\\\\\\\\\\\\\\
 
     public static async createIncident(req:express.Request){
 
         try{
-
-            let newIncident = await new incidentModel(req.body);
+            
+            let newIncident = new incidentModel(req.body);
+            await newIncident.save();
             return ResponseModel.isValidResponse(newIncident);
 
         }catch(err){
@@ -225,9 +243,12 @@ export class Services{
 
         try{
 
-            let result = incidentModel.update(
+            console.log(req.body.IncidentNumber);
+            // console.log( await incidentModel.findOne({"IncidentNumber":req.body.IncidentNumber}));
+            let result = await incidentModel.updateOne(
                 {
-                    "IncidentNumber":req.body.incNum
+                    "IncidentNumber":req.body.IncidentNumber
+
                 },
                 {
                     $set:{
@@ -236,14 +257,14 @@ export class Services{
                         "OnBehalfOf":req.body.OnBehalfOf,
                         "Category":req.body.Category,
                         "SubCategory":req.body.SubCategory,
-                        "ConfigurationItem":req.body.CI,
+                        "ConfigurationItem":req.body.ConfigurationItem,
                         "State":req.body.State,
                         "Impact":req.body.Impact,
                         "Urgency":req.body.Urgency,
-                        "AssignmentGroup":req.body.AG,
-                        "AssignedTo":req.body.AT,
-                        "ShortDescription":req.body.SD,
-                        "Description":req.body.Des,
+                        "AssignmentGroup":req.body.AssignmentGroup,
+                        "AssignedTo":req.body.AssignedTo,
+                        "ShortDescription":req.body.ShortDescription,
+                        "Description":req.body.Description,
                         "UpdateDate":Date.now()
         
                     }
@@ -259,6 +280,65 @@ export class Services{
 
         }
 
+    }
+
+    public static async getAllIncident(){
+
+        try{
+
+            let incidents = await incidentModel.find({}).limit(5)
+            .populate("Caller")
+            // .populate("ConfigurationItem")
+            .populate("AssignmentGroup")
+            .populate("AssignedTo");
+            return ResponseModel.isValidResponse(incidents);
+
+        }catch(err){
+
+            return ResponseModel.isInValidResponse(err);
+
+        }
+        
+    }
+
+    public static async getIncNumber(){
+
+        try{
+
+            let incNum = await incidentModel.find({},{IncidentNumber:1,_id:0})
+            .sort({IncidentNumber:-1})
+            // .limit(1);
+            // console.log(incNum);
+            return ResponseModel.isValidResponse(incNum);
+
+        }catch(err){
+
+            ResponseModel.isInValidResponse(err);
+
+        }
+
+    }
+
+    public static async pagiInc(req:express.Request){
+
+        try{
+
+            let pageNum:number = req.body.Page;
+            // let numOfRec:number = pageNum*5;
+            let sk:number = pageNum*5;
+            let records = await incidentModel
+            .find({"Active":true})
+            .skip(sk)
+            .limit(5);
+            return ResponseModel.isValidResponse(records);
+
+
+        }catch(err){
+
+            return ResponseModel.isInValidResponse(err);
+
+        }
+       
     }
 
 }

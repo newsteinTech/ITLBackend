@@ -17,4 +17,20 @@ export class incidentController{
 
     }
 
+    public async getAllIncident(req:express.Request,res:express.Response){
+
+        let result = await Services.getAllIncident();
+        res.send(result);
+
+    }
+
+    public async getIncNumber(req:express.Request,res:express.Response){
+
+        let result = await Services.getIncNumber();
+        res.send(result);
+
+    }
+
+    // public async pagi()
+
 }

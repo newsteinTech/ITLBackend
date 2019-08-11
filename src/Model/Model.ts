@@ -1,95 +1,94 @@
 import mongoose, { Schema } from "mongoose";
 
 export const incidentSchema = new mongoose.Schema({
-    "IncidentDetails" : {
-        "IncidentNumber" : {
-            type: String,
-            required: true
-        },
-        "Caller" : {
-            type: Schema.Types.ObjectId,
-            ref: 'userDetail',
-            required: true
-        },
-        "OnBehalfOf" : {// Contains the name of customer or employee who have no access to ITIL Tool.
-            type: Schema.Types.ObjectId,
-            ref: 'userDetail'
-        },
-        "Category" : {
-            type: String,
-            enum: ["Software", "Hardware", "Database", "Network", "Inquiry"],
-            required: true
-        },
-        "SubCategory" : {
-            type: String
-            // based on enum category (ex- if category is software, subcategories will be email, OS)
-        },
-        "ConfigurationItem" : {
-            type: Schema.Types.ObjectId,
-            ref: 'ConfigItemDetail'
-        },
-        "State" : {
-            type: String,
-            enum:["New", "In Progress", "Closed", "Resolved", "Cancelled"]
-        },
-        "Impact" : {
-            type: String,
-            enum:["High", "Medium", "Low"]
-        },
-        "Urgency" : {
-            type: String,
-            enum:["High", "Medium", "Low"]
-        },
-        "Priority" : {
-            type: String
-        },
-        "AssignmentGroup" : {
-            type: Schema.Types.ObjectId,
-            ref: 'groupDetail',
-            required:true
-        },
-        "AssignedTo" : {
-            type: Schema.Types.ObjectId,
-            ref: 'userDetail'
-        },
-        "ShortDescription" : {
-            type: String,
-            required: true
-        },
-        "Description" : {
-            type: String
-        },
-        "CreatedDate" : {
-            type:Date,
-            default:Date.now()
-        },
-        "UpdateDate" : {
-            type:Date
-        }
-
+    
+    "IncidentNumber" : {
+        type: Number,
+        required: true,
+        unique:true
     },
-    "IncidentResolvedDetails" : {
-        "WorkNotes" :[{
-            comment:String,
-            commentedBy:{
-                Type: Schema.Types.ObjectId,
-                // ref: 'userDetail',(Showing error for some reason)
-            },
-            Date:Date
-        }],
-        "ResolutionCode" : {
-            type: String,
-            enum: ["Solved by workaround", "Solved Permanently", "Not Solved", "Closed"]
-        },
-        "ResolvedBy" : {
-            type: Schema.Types.ObjectId,
-            ref: 'userDetail'
-        },
-        "ResolvedDate" : {
-            type: Date
-        }
+    "Caller" : {
+        type: Schema.Types.ObjectId,
+        ref: 'userDetail',
+        required: true
+    },
+    // "OnBehalfOf" : {// Contains the name of customer or employee who have no access to ITIL Tool.
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'userDetail'
+    // },
+    // "Category" : {
+    //     type: String,
+    //     enum: ["Software", "Hardware", "Database", "Network", "Inquiry"],
+    // },
+    // "SubCategory" : {
+    //     type: String
+    //     // based on enum category (ex- if category is software, subcategories will be email, OS)
+    // },
+    "ConfigurationItem" : {
+        type: Schema.Types.ObjectId,
+        ref: 'ConfigItemDetail'
+    },
+    "State" : {
+        type: String,
+        enum:["New", "In Progress", "Closed", "Resolved", "Cancelled"]
+    },
+    "Impact" : {
+        type: String,
+        enum:["High", "Medium", "Low"]
+    },
+    "Urgency" : {
+        type: String,
+        enum:["High", "Medium", "Low"]
+    },
+    "Priority" : {
+        type: String
+    },
+    "AssignmentGroup" : {
+        type: Schema.Types.ObjectId,
+        ref: 'groupDetail',
+        required:true
+    },
+    "AssignedTo" : {
+        type: Schema.Types.ObjectId,
+        ref: 'userDetail'
+    },
+    "ShortDescription" : {
+        type: String,
+        required: true
+    },
+    "Description" : {
+        type: String
+    },
+    "CreatedDate" : {
+        type:Date,
+        default:Date.now()
+    },
+    "UpdateDate" : {
+        type:Date
     }
-})
+
+    // "IncidentResolvedDetails" : {
+    //     "WorkNotes" :[{
+    //         comment:String,
+    //         commentedBy:{
+    //             Type: Schema.Types.ObjectId,
+    //             // ref: 'userDetail',(Showing error for some reason)
+    //         },
+    //         Date:Date
+    //     }],
+    //     "ResolutionCode" : {
+    //         type: String,
+    //         enum: ["Solved by workaround", "Solved Permanently", "Not Solved", "Closed"]
+    //     },
+    //     "ResolvedBy" : {
+    //         type: Schema.Types.ObjectId,
+    //         ref: 'userDetail'
+    //     },
+    //     "ResolvedDate" : {
+    //         type: Date
+    //     }
+    // }
+});
 
 export const taskSchema= new mongoose.Schema({
     "Tasknumber" : {
