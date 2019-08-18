@@ -1,6 +1,8 @@
 import express from "express";
-import { userModel, groupModel, incidentModel } from "../Model/Model";
+import { userModel, groupModel, incidentModel, CIModl} from "../Model/Model";
 import { ResponseModel } from "../Helper/Helper";
+import { incPagi } from "../Helper/inc";
+import *as jwt from 'jsonwebtoken';
 
 export class Services{
     //////////////////// USERS SERVICES \\\\\\\\\\\\\\\\\\\\\
@@ -288,9 +290,9 @@ export class Services{
 
             let incidents = await incidentModel.find({}).limit(5)
             .populate("Caller")
-            // .populate("ConfigurationItem")
             .populate("AssignmentGroup")
             .populate("AssignedTo");
+            // .populate("ConfigurationItem");
             return ResponseModel.isValidResponse(incidents);
 
         }catch(err){
@@ -321,17 +323,39 @@ export class Services{
 
     public static async pagiInc(req:express.Request){
 
+        let q1 = async function(skp:number){
+
+            let records:any = await incidentModel
+                .find({})
+                .skip(skp)
+                .limit(5)
+                .populate('AssignmentGroup')
+                .populate('Caller')
+                .populate('AssignedTo')
+               // .populate('ConfigurationItem');
+            return records;
+            
+        }
         try{
+            
+            if(req.body.type == 0){
+                
+               
+                let records = await q1(0); 
+                let nuOfRec = await incidentModel.countDocuments();
+                let inc = new incPagi(records,nuOfRec);
+                return ResponseModel.isValidResponse(inc);
 
-            let pageNum:number = req.body.Page;
-            // let numOfRec:number = pageNum*5;
-            let sk:number = pageNum*5;
-            let records = await incidentModel
-            .find({"Active":true})
-            .skip(sk)
-            .limit(5);
-            return ResponseModel.isValidResponse(records);
+            }else if(req.body.type == 1){
 
+                let pageNum:number = req.body.Page;
+                let numOfRec:number = pageNum*5;
+                let sk:number = pageNum*5;
+                let records = await q1(sk);
+                let inc = new incPagi(records,0);
+                return ResponseModel.isValidResponse(inc);
+
+            }
 
         }catch(err){
 
@@ -339,6 +363,108 @@ export class Services{
 
         }
        
+    }
+
+    public static async getIncByNumber(req:express.Request){
+
+        try{
+            
+            let record = await incidentModel.findOne({IncidentNumber:req.body.Number})
+            .populate('AssignmentGroup')
+            .populate('Caller')
+            .populate('AssignedTo');
+            // .populate('ConfigurationItem');
+            return ResponseModel.isValidResponse(record);
+
+        }catch(err){
+
+            return ResponseModel.isInValidResponse(err);
+
+        }
+
+    }
+
+    /////////////////// CONFIGURATION ITEM \\\\\\\\\\\\\\\\
+    
+    public static async createCI(req:express.Request){
+
+        try{
+            
+            let record = new CIModl(req.body);
+            await record.save();
+            return ResponseModel.isValidResponse(record);
+
+        }catch(err){
+
+            return ResponseModel.isInValidResponse(err);
+
+        }
+
+    }
+
+    public static async getCI(req:express.Request){
+
+        try{
+
+            let record = await CIModl.find({});
+            return ResponseModel.isValidResponse(record);
+
+        }catch(err){
+
+            return ResponseModel.isInValidResponse(err);
+
+        }
+
+    }
+
+    /////////////// LOGIN SERVICES \\\\\\\\\\\\\\\\
+    
+    public static async login(req:express.Request){
+
+        try{
+
+            let user:any = await userModel.findOne({Email:req.body.Email});
+            if(user){
+
+                if(user.Password == req.body.Password){
+
+                    let signInOptions:jwt.SignOptions = {
+
+                        "expiresIn":"12h"
+
+                    }
+
+                    let secret = "secret";
+
+                    let payLoad = {
+
+                        "Email":user.Email,
+                        "Role":user.Role,
+                        "Name":user.Name,
+                        "UserId":user.UserId
+
+                    }
+
+                    let token = await jwt.sign(payLoad,secret,signInOptions);
+
+                }else{
+
+                    return "Wrong Password";
+
+                }
+
+            }else{
+
+                return "User Doesn't exist.";
+
+            }
+
+        }catch(err){
+
+            console.log(err);
+
+        }
+
     }
 
 }

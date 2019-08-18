@@ -31,6 +31,18 @@ export class incidentController{
 
     }
 
-    // public async pagi()
+    public async pagiInc(req:express.Request,res:express.Response){
+
+        let result = await Services.pagiInc(req);
+        res.send(result);
+
+    }
+
+    public async getIncByNum(req:express.Request,res:express.Response){
+
+        let result = await Services.getIncByNumber(req);
+        res.send(result);
+
+    }
 
 }

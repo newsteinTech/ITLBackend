@@ -209,10 +209,6 @@ export const CISchema = new mongoose.Schema ({
         required: true,
         unique: true
     },
-    "Manufacturer" : {
-        type: String,
-        enum: ["Lenovo", "IBM", "Microsoft", "Adobe", "HP", "Dell", "Apple", "Asus","Others"]
-    },
     "Class" : {
         type: String,
         enum: ["Computer", "Software", "Server","Services"]
@@ -221,9 +217,6 @@ export const CISchema = new mongoose.Schema ({
         type: String,
         required:true,
         unique:true
-    },
-    "Location" : {
-        type: String
     },
     "CreatedDate" : {
         type:Date,
@@ -239,4 +232,4 @@ export let incidentModel = mongoose.model('incidentDetail', incidentSchema);
 export let taskModel = mongoose.model('taskDetail', taskSchema);
 export let userModel = mongoose.model('userDetail',userSchema);
 export let groupModel = mongoose.model('groupDetail', groupSchema);
-export let CIModel = mongoose.model('configItemDetail', CISchema);
+export let CIModl = mongoose.model('CIDetail', CISchema);
