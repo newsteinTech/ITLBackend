@@ -52,4 +52,11 @@ export class userController{
 
     }
 
+    public async login(req:express.Request,res:express.Response){
+
+        let result = await Services.login(req);
+        res.send(result);
+
+    }
+
 }

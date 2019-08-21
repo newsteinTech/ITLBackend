@@ -65,6 +65,10 @@ export const incidentSchema = new mongoose.Schema({
     },
     "UpdateDate" : {
         type:Date
+    },
+    "sla":{
+        type:Date,
+        required:true
     }
 
     // "IncidentResolvedDetails" : {

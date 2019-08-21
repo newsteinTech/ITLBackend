@@ -165,6 +165,57 @@ export class Services{
        
     }
 
+     /////////////// LOGIN USER \\\\\\\\\\\\\\\\
+    
+     public static async login(req:express.Request){
+
+        try{
+
+            let user:any = await userModel.findOne({Email:req.body.Email});
+            if(user){
+
+                if(user.Password == req.body.Password){
+
+                    let signInOptions:jwt.SignOptions = {
+
+                        "expiresIn":"12h"
+
+                    }
+
+                    let secret = "secret";
+
+                    let payLoad = {
+
+                        "Email":user.Email,
+                        "Role":user.Role,
+                        "Name":user.Name,
+                        "UserId":user.UserId
+
+                    }
+
+                    let token = await jwt.sign(payLoad,secret,signInOptions);
+                    return ResponseModel.isValidResponse(token);
+
+                }else{
+
+                    return ResponseModel.isInValidResponse("Wrong Password");
+
+                }
+
+            }else{
+
+                return ResponseModel.isInValidResponse("User Doesn't exist.");
+
+            }
+
+        }catch(err){
+
+            console.log(err);
+
+        }
+
+    }
+
     //////////////////// GROUP SERVICES \\\\\\\\\\\\\\\\\\\\\
     public static async createGroup(req:express.Request){
 
@@ -229,8 +280,10 @@ export class Services{
 
         try{
             
-            let newIncident = new incidentModel(req.body);
+            let newIncident:any = new incidentModel(req.body);
+            console.log(req.body);
             await newIncident.save();
+            console.log(newIncident.sla);
             return ResponseModel.isValidResponse(newIncident);
 
         }catch(err){
@@ -417,54 +470,6 @@ export class Services{
 
     }
 
-    /////////////// LOGIN SERVICES \\\\\\\\\\\\\\\\
-    
-    public static async login(req:express.Request){
-
-        try{
-
-            let user:any = await userModel.findOne({Email:req.body.Email});
-            if(user){
-
-                if(user.Password == req.body.Password){
-
-                    let signInOptions:jwt.SignOptions = {
-
-                        "expiresIn":"12h"
-
-                    }
-
-                    let secret = "secret";
-
-                    let payLoad = {
-
-                        "Email":user.Email,
-                        "Role":user.Role,
-                        "Name":user.Name,
-                        "UserId":user.UserId
-
-                    }
-
-                    let token = await jwt.sign(payLoad,secret,signInOptions);
-
-                }else{
-
-                    return "Wrong Password";
-
-                }
-
-            }else{
-
-                return "User Doesn't exist.";
-
-            }
-
-        }catch(err){
-
-            console.log(err);
-
-        }
-
-    }
+   
 
 }

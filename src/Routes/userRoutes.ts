@@ -12,3 +12,4 @@ userRoutes.post("/getUser",userConObj.getUser);
 userRoutes.get("/",((req:Request,res:Response)=>{
     res.send("Hello from userRoutes.");
 }))
+userRoutes.post("/login",userConObj.login);

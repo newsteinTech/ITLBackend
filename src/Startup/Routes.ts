@@ -3,6 +3,7 @@ import { userRoutes } from "../Routes/userRoutes";
 import { groupRoutes } from "../Routes/groupRoutes";
 import { incidentRoutes } from "../Routes/incidentRoutes";
 import { CIRoutes } from "../Routes/CIRoutes";
+import { Authanticate } from "../Middleware/Authanticate";
 export class Routes{
 
     public static configRoutes(app:express.Application){
@@ -15,6 +16,7 @@ export class Routes{
 
         app.use("/api/user",userRoutes);
         app.use("/api/group",groupRoutes);
+        // app.use("/api/incident",Authanticate.Authanticate,incidentRoutes);
         app.use("/api/incident",incidentRoutes);
         app.use("/api/ci",CIRoutes);
     }

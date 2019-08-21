@@ -1,10 +1,13 @@
 import express from "express";
 import { Services } from "../Services/services";
+import { Authanticate } from "../Middleware/Authanticate";
+import { ActionType } from "../Data Model/Action";
 
 export class incidentController{
 
     public async createIncident(req:express.Request,res:express.Response){
 
+        // Authanticate.AutharizeInc(req,res,ActionType.create);
         let result = await Services.createIncident(req);
         res.send(result);
 

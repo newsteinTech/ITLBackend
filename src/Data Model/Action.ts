@@ -1,10 +1,8 @@
 export enum ActionType{
 
-    Admin, 
-    ITILAdmin, 
-    Manager,
-    CSReps,
-    Employee,
-    Customer
+    create,
+    get,
+    update,
+    delete
 
 }
