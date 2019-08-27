@@ -12,8 +12,9 @@ export class Services{
 
             let newUser = new userModel(req.body);
             await newUser.save();
-            if(req.body.Group.length > 0){
-
+            
+            if(req.body.Group != undefined ){
+                
                 let group = req.body.Group;
                 group.forEach(async (cur:any)=>{
 
@@ -28,16 +29,18 @@ export class Services{
                         }
 
                     );
-                    // await groupModel.findOne({"_id":cur}).populate({path:'GroupMembers',Model:userModel});
+                    
                 });
 
 
 
             }
+           
             return ResponseModel.isValidResponse(newUser);
 
         }catch(err){
 
+            console.log(err);
             return ResponseModel.isInValidResponse(err);
 
         }
@@ -470,6 +473,126 @@ export class Services{
 
     }
 
-   
+   ///////////////////DASHBOARD\\\\\\\\\\\\\\\\\\
+
+   public static async pieData(req:express.Request){
+
+    try{
+
+        let newState = await incidentModel.count({State:"New"});
+        let inProgress = await incidentModel.count({State:"In Progress"});
+        let OnHold = await incidentModel.count({State:"On Hold"});
+        let Resolved = await incidentModel.count({State:"Resolved"});
+        let Cancelled = await incidentModel.count({State:"Cancelled"});
+        let obj = {
+
+            "New":newState, 
+            "inProgress":inProgress, 
+            "OnHold":OnHold, 
+            "Resolved":Resolved, 
+            "Cancelled":Cancelled
+
+        }
+        return ResponseModel.isValidResponse(obj);
+
+    }catch(err){
+
+
+
+    }
+
+   }
+
+   public static async barData(req:express.Request){
+
+    try{
+
+        let grpData:any = await groupModel.find({},{Name:1}); 
+        let GroupName:Array<string> = [];
+        let IncCount:Array<number> = [];
+        let data;
+        
+        for(let i = 0; i<grpData.length ; i++){
+
+            GroupName.push(grpData[i].Name);
+            IncCount.push(await incidentModel.count({AssignmentGroup:grpData[i]._id}));
+
+        }
+        
+        data = {
+            grp:GroupName,
+            inc:IncCount
+        }
+
+        return ResponseModel.isValidResponse(data);
+
+    }catch(err){
+
+        return ResponseModel.isInValidResponse(err);
+
+    }
+
+   }
+
+   public static async incCard(req:express.Request){
+
+    try{
+
+        let ciData:any = await CIModl.find({},{Name:1}); 
+        let ciName:Array<string> = [];
+        let IncCount:Array<number> = [];
+        let data;
+        
+        for(let i = 0; i<ciData.length ; i++){
+
+            ciName.push(ciData[i].Name);
+            IncCount.push(await incidentModel.count({ConfigurationItem:ciData[i]._id}));
+
+        }
+        
+        data = {
+            ci:ciName,
+            inc:IncCount
+        }
+
+        return ResponseModel.isValidResponse(data);
+
+    }catch(err){
+
+        return ResponseModel.isInValidResponse(err);
+
+    }
+
+   }
+
+   public static async userCard(req:express.Request){
+
+    try{
+        
+        let grData:any = await groupModel.find({},{Name:1,GroupMembers:1});
+        let userNum:any = await userModel.countDocuments({Active:true});
+        let grName:Array<string> = [];
+        let userCount:Array<number> = [];
+        for( let i = 0; i<grData.length;i++){
+
+            grName.push(grData[i].Name)
+            userCount.push(grData[i].GroupMembers.length);
+
+        }
+        let data = {
+            gr:grName,
+            user:userCount,
+            totalUsers:userNum
+        }
+        // console.log(data);
+        return ResponseModel.isValidResponse(data);
+
+    }catch(err){
+        
+        return ResponseModel.isInValidResponse(err);
+
+    }
+
+   }
 
 }

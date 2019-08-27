@@ -7,7 +7,7 @@ export class incidentController{
 
     public async createIncident(req:express.Request,res:express.Response){
 
-        // Authanticate.AutharizeInc(req,res,ActionType.create);
+        Authanticate.AutharizeInc(req,res,ActionType.create);
         let result = await Services.createIncident(req);
         res.send(result);
 

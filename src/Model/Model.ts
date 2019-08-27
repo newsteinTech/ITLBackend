@@ -30,7 +30,7 @@ export const incidentSchema = new mongoose.Schema({
     },
     "State" : {
         type: String,
-        enum:["New", "In Progress", "Closed", "Resolved", "Cancelled"]
+        enum:["New", "In Progress", "On Hold", "Resolved", "Cancelled"]
     },
     "Impact" : {
         type: String,
