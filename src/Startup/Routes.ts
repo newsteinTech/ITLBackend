@@ -17,8 +17,8 @@ export class Routes{
 
         app.use("/api/user",userRoutes);
         app.use("/api/group",groupRoutes);
-        app.use("/api/incident",Authanticate.Authanticate,incidentRoutes);
-        // app.use("/api/incident",incidentRoutes);
+        // app.use("/api/incident",Authanticate.Authanticate,incidentRoutes);
+        app.use("/api/incident",incidentRoutes);
         app.use("/api/ci",CIRoutes);
         app.use("/api/dash",dashRoutes);
     }

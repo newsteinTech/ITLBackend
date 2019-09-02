@@ -497,7 +497,7 @@ export class Services{
 
     }catch(err){
 
-
+        return ResponseModel.isInValidResponse(err);
 
     }
 
@@ -584,7 +584,7 @@ export class Services{
             user:userCount,
             totalUsers:userNum
         }
-        // console.log(data);
+        
         return ResponseModel.isValidResponse(data);
 
     }catch(err){

@@ -29,13 +29,69 @@ export class Authanticate{
 
    }
 
-   public static async AutharizeInc(req:any,res:Response,action:ActionType){
+   public static async Autharize(req:any,res:Response,action:ActionType){
 
     switch(req.user.Role){
 
         case "Admin":{
 
-            let result = RolePermission.Incident.Admin.Permission.indexOf(action);
+            let result = RolePermission.Admin.Permission.indexOf(action);
+            if(result>0){
+
+                return true;
+
+            }else{
+
+                return false;
+
+            }
+
+        }
+        case "ITIL Admin":{
+
+            let result = RolePermission["ITIL Admin"].Permission.indexOf(action);
+            if(result>0){
+
+                return true;
+
+            }else{
+
+                return false;
+
+            }
+
+        }
+        case "CS Reps":{
+
+            let result = RolePermission["CS Reps"].Permission.indexOf(action);
+            if(result>0){
+
+                return true;
+
+            }else{
+
+                return false;
+
+            }
+
+        }
+        case "Employee":{
+
+            let result = RolePermission.Employee.Permission.indexOf(action);
+            if(result>0){
+
+                return true;
+
+            }else{
+
+                return false;
+
+            }
+
+        }
+        case "Manager":{
+
+            let result = RolePermission.Manager.Permission.indexOf(action);
             if(result>0){
 
                 return true;

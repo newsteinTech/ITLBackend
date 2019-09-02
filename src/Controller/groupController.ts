@@ -1,5 +1,7 @@
 import express from "express";
 import { Services } from "../Services/services";
+import { Authanticate } from "../Middleware/Authanticate";
+import { ActionType } from "../Data Model/Action";
 
 
 export class groupController{
@@ -13,6 +15,7 @@ export class groupController{
 
     public async getGroups(req:express.Request,res:express.Response){
 
+        Authanticate.Autharize(req,res,ActionType.createUser);
         let result = await Services.getAllGroups();
         res.send(result);
 

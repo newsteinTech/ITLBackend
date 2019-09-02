@@ -7,7 +7,7 @@ export class incidentController{
 
     public async createIncident(req:express.Request,res:express.Response){
 
-        Authanticate.AutharizeInc(req,res,ActionType.create);
+        Authanticate.Autharize(req,res,ActionType.createInc);
         let result = await Services.createIncident(req);
         res.send(result);
 
@@ -15,6 +15,7 @@ export class incidentController{
 
     public async updateIncident(req:express.Request,res:express.Response){
 
+        Authanticate.Autharize(req,res,ActionType.updateInc);
         let result = await Services.updateIncident(req);
         res.send(result);
 
@@ -22,6 +23,7 @@ export class incidentController{
 
     public async getAllIncident(req:express.Request,res:express.Response){
 
+        Authanticate.Autharize(req,res,ActionType.getInc);
         let result = await Services.getAllIncident();
         res.send(result);
 
@@ -29,6 +31,7 @@ export class incidentController{
 
     public async getIncNumber(req:express.Request,res:express.Response){
 
+        
         let result = await Services.getIncNumber();
         res.send(result);
 
@@ -43,6 +46,7 @@ export class incidentController{
 
     public async getIncByNum(req:express.Request,res:express.Response){
 
+        Authanticate.Autharize(req,res,ActionType.getInc);
         let result = await Services.getIncByNumber(req);
         res.send(result);
 

@@ -1,8 +1,12 @@
 export enum ActionType{
 
-    create,
-    get,
-    update,
-    delete
+    createInc,
+    getInc,
+    updateInc,
+    createUser,
+    getUser,
+    updateUser,
+    deleteUser,
+    
 
 }
