@@ -9,7 +9,9 @@ export const rolePermissions = {
                 Actiontype.getAllUsers,
                 Actiontype.createIncident,
                 Actiontype.getAllIncidents,
-                Actiontype.updateIncident
+                Actiontype.updateIncident,
+                Actiontype.getIncidentByAssignedTo,
+                Actiontype.getIncidentCountByGroup
             ] 
     },
     
@@ -18,7 +20,9 @@ export const rolePermissions = {
                 Actiontype.getAllUsers,
                 Actiontype.createIncident,
                 Actiontype.getAllIncidents,
-                Actiontype.updateIncident
+                Actiontype.updateIncident,
+                Actiontype.getIncidentByAssignedTo,
+                Actiontype.getIncidentCountByGroup
             ]
     },
     
@@ -26,7 +30,10 @@ export const rolePermissions = {
             "Permissions":[
                 Actiontype.getAllUsers,
                 Actiontype.createIncident,
-                Actiontype.getAllIncidents
+                Actiontype.getAllIncidents,
+                Actiontype.updateIncident,
+                Actiontype.getIncidentByAssignedTo,
+                Actiontype.getIncidentCountByGroup
             ]
 
     },
@@ -34,7 +41,10 @@ export const rolePermissions = {
     "CSReps":{
             "Permissions":[
                 Actiontype.createIncident,
-                Actiontype.getAllIncidents
+                Actiontype.updateIncident,
+                Actiontype.getAllIncidents,
+                Actiontype.getIncidentByAssignedTo,
+                Actiontype.getIncidentCountByGroup
             ]
     }
 

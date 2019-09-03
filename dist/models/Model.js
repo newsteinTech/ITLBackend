@@ -9,73 +9,75 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 exports.incidentSchema = new mongoose_1.default.Schema({
-    "IncidentDetails": {
-        "Incident Number": {
-            type: String,
-            required: true
-        },
-        "Caller": {
-            type: mongoose_1.Schema.Types.ObjectId,
-            ref: 'userDetail',
-            required: true
-        },
-        "OnBehalfOf": {
-            type: mongoose_1.Schema.Types.ObjectId,
-            ref: 'userDetail'
-        },
-        "Category": {
-            type: String,
-            enum: ["Software", "Hardware", "Database", "Network", "Inquiry"],
-            required: true
-        },
-        "SubCategory": {
-            type: String
-            // based on enum category (ex- if category is software, subcategories will be email, OS)
-        },
-        "ConfigurationItem": {
-            type: mongoose_1.Schema.Types.ObjectId,
-            ref: 'ConfigItemDetail'
-        },
-        "State": {
-            type: String,
-            enum: ["New", "In Progress", "Closed", "Resolved", "Cancelled"]
-        },
-        "Impact": {
-            type: String,
-            enum: ["High", "Medium", "Low"]
-        },
-        "Urgency": {
-            type: String,
-            enum: ["High", "Medium", "Low"]
-        },
-        "Priority": {
-            type: String
-        },
-        "AssignmentGroup": {
-            type: mongoose_1.Schema.Types.ObjectId,
-            ref: 'groupDetail',
-            required: true
-        },
-        "AssignedTo": {
-            type: mongoose_1.Schema.Types.ObjectId,
-            ref: 'userDetail'
-        },
-        "ShortDescription": {
-            type: String,
-            required: true
-        },
-        "Description": {
-            type: String
-        },
-        "CreatedDate": {
-            type: Date,
-            default: Date.now()
-        },
-        "UpdateDate": {
-            type: Date
-        }
+    "IncidentNumber": {
+        type: String,
+        required: true
     },
-    "IncidentResolvedDetails": {
+    "Caller": {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'userDetail',
+        required: true
+    },
+    "OnBehalfOf": {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'userDetail'
+    },
+    "Category": {
+        type: String,
+        enum: ["Software", "Hardware", "Database", "Network", "Inquiry/Help"]
+    },
+    "Subcategory": {
+        type: String
+        // based on enum category (ex- if category is software, subcategories will be email, OS)
+    },
+    "ConfigurationItem": {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'ConfigItemDetail'
+    },
+    "State": {
+        type: String,
+        enum: ["New", "In Progress", "Closed", "Resolved", "Cancelled"]
+    },
+    "Impact": {
+        type: String,
+        enum: ["High", "Medium", "Low"],
+        required: true
+    },
+    "Urgency": {
+        type: String,
+        enum: ["High", "Medium", "Low"],
+        required: true
+    },
+    "Priority": {
+        type: String
+    },
+    "AssignmentGroup": {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'groupDetail',
+        required: true
+    },
+    "AssignedTo": {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'userDetail'
+    },
+    "ShortDescription": {
+        type: String,
+        required: true
+    },
+    "Description": {
+        type: String
+    },
+    "CreatedDate": {
+        type: Date,
+        default: Date.now()
+    },
+    "UpdateDate": {
+        type: Date
+    },
+    "SLA": {
+        type: Date
+    },
+    "IncidentResolutionDetails": {
         "WorkNotes": [{
                 comment: String,
                 commentedBy: {
@@ -236,6 +238,7 @@ exports.CISchema = new mongoose_1.default.Schema({
     }
 });
 exports.incidentModel = mongoose_1.default.model('incidentDetail', exports.incidentSchema);
+//incidentSchema.plugin(autoIncrement.plugin, { model: 'incidentModel', field: 'IncidentNumber', startAt: 20 });
 exports.taskModel = mongoose_1.default.model('taskDetail', exports.taskSchema);
 exports.userModel = mongoose_1.default.model('userDetail', exports.userSchema);
 exports.groupModel = mongoose_1.default.model('groupDetail', exports.groupSchema);

@@ -10,7 +10,9 @@ exports.rolePermissions = {
             actionType_1.Actiontype.getAllUsers,
             actionType_1.Actiontype.createIncident,
             actionType_1.Actiontype.getAllIncidents,
-            actionType_1.Actiontype.updateIncident
+            actionType_1.Actiontype.updateIncident,
+            actionType_1.Actiontype.getIncidentByAssignedTo,
+            actionType_1.Actiontype.getIncidentCountByGroup
         ]
     },
     "ITILAdmin": {
@@ -18,20 +20,28 @@ exports.rolePermissions = {
             actionType_1.Actiontype.getAllUsers,
             actionType_1.Actiontype.createIncident,
             actionType_1.Actiontype.getAllIncidents,
-            actionType_1.Actiontype.updateIncident
+            actionType_1.Actiontype.updateIncident,
+            actionType_1.Actiontype.getIncidentByAssignedTo,
+            actionType_1.Actiontype.getIncidentCountByGroup
         ]
     },
     "Manager": {
         "Permissions": [
             actionType_1.Actiontype.getAllUsers,
             actionType_1.Actiontype.createIncident,
-            actionType_1.Actiontype.getAllIncidents
+            actionType_1.Actiontype.getAllIncidents,
+            actionType_1.Actiontype.updateIncident,
+            actionType_1.Actiontype.getIncidentByAssignedTo,
+            actionType_1.Actiontype.getIncidentCountByGroup
         ]
     },
     "CSReps": {
         "Permissions": [
             actionType_1.Actiontype.createIncident,
-            actionType_1.Actiontype.getAllIncidents
+            actionType_1.Actiontype.updateIncident,
+            actionType_1.Actiontype.getAllIncidents,
+            actionType_1.Actiontype.getIncidentByAssignedTo,
+            actionType_1.Actiontype.getIncidentCountByGroup
         ]
     }
 };

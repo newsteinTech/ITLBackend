@@ -10,6 +10,7 @@ class DB {
         mongoose_1.default.connect(connectionString, { useNewUrlParser: true })
             .then(() => { console.log("DB connected"); })
             .catch((err) => { console.log("DB connection failure"); });
+        // autoIncrement.initialize(mongoose.createConnection(connectionString));
     }
 }
 exports.DB = DB;

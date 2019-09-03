@@ -5,6 +5,7 @@
     getAllUsers,
     createIncident,
     getAllIncidents,
-    updateIncident,
-    deleteIncident
+    getIncidentCountByGroup,
+    getIncidentByAssignedTo,
+    updateIncident
  }

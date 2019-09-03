@@ -1,8 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
+import autoIncrement from "mongoose-auto-increment"
+
 export const incidentSchema = new mongoose.Schema({
-    "IncidentDetails" : {
-        "Incident Number" : {
+    
+        "IncidentNumber" : {
             type: String,
             required: true
         },
@@ -17,10 +19,9 @@ export const incidentSchema = new mongoose.Schema({
         },
         "Category" : {
             type: String,
-            enum: ["Software", "Hardware", "Database", "Network", "Inquiry"],
-            required: true
+            enum: ["Software", "Hardware", "Database", "Network", "Inquiry/Help"]
         },
-        "SubCategory" : {
+        "Subcategory" : {
             type: String
             // based on enum category (ex- if category is software, subcategories will be email, OS)
         },
@@ -34,11 +35,13 @@ export const incidentSchema = new mongoose.Schema({
         },
         "Impact" : {
             type: String,
-            enum:["High", "Medium", "Low"]
+            enum:["High", "Medium", "Low"],
+            required: true
         },
         "Urgency" : {
             type: String,
-            enum:["High", "Medium", "Low"]
+            enum:["High", "Medium", "Low"],
+            required: true
         },
         "Priority" : {
             type: String
@@ -65,10 +68,13 @@ export const incidentSchema = new mongoose.Schema({
         },
         "UpdateDate" : {
             type:Date
-        }
+        },
 
-    },
-    "IncidentResolvedDetails" : {
+        "SLA" : {
+            type: Date
+        },
+
+    "IncidentResolutionDetails" : {
         "WorkNotes" :[{
             comment:String,
             commentedBy:{
@@ -88,7 +94,7 @@ export const incidentSchema = new mongoose.Schema({
         "ResolvedDate" : {
             type: Date
         }
-    }
+    } 
 })
 
 export const taskSchema= new mongoose.Schema({
@@ -238,6 +244,8 @@ export const CISchema = new mongoose.Schema ({
 
 
 export let incidentModel = mongoose.model('incidentDetail', incidentSchema);
+//incidentSchema.plugin(autoIncrement.plugin, { model: 'incidentModel', field: 'IncidentNumber', startAt: 20 });
+
 export let taskModel = mongoose.model('taskDetail', taskSchema);
 export let userModel = mongoose.model('userDetail',userSchema);
 export let groupModel = mongoose.model('groupDetail', groupSchema);

@@ -31,12 +31,13 @@ class Authenticate {
                 next();
             }
             catch (error) {
+                console.log(error);
                 res.status(401).send("Bad Request, access denied");
             }
         });
     }
     static authorize(req, res, next, action) {
-        switch (req.user.role) {
+        switch (req.user.Role) {
             case "Admin":
                 let result = permissions_1.rolePermissions.Admin.Permissions.indexOf(action);
                 if (result >= 0) {

@@ -18,13 +18,14 @@ export class Authenticate{
             req.user= decodedToken; next(); 
         }
         catch(error){
+            console.log(error);
             res.status(401).send("Bad Request, access denied");
         }
     }
 
     public static authorize(req:any , res:Response, next: any, action: Actiontype){
 
-        switch(req.user.role){
+        switch(req.user.Role){
             case "Admin":
                 let result= rolePermissions.Admin.Permissions.indexOf(action)
                 if(result>=0){

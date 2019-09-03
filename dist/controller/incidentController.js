@@ -22,15 +22,40 @@ class IncidentController {
             res.send(result);
         });
     }
-    getAllIncidents(req, res) {
+    getAllIncidents(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            /* let permission= await Authenticate.authorize(req, res, next, Actiontype.getAllIncidents);
+    
+            if(permission==true){ */
             let result = yield incidentService_1.IncidentService.getAllIncidents(req);
+            res.send(result);
+            /*  }
+             else{
+                 res.send("You don't have the right permissions")
+             } */
+        });
+    }
+    getLastIncident(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield incidentService_1.IncidentService.getLastIncident(req);
             res.send(result);
         });
     }
-    getIncidentByGroup(req, res) {
+    getIncidentCountByGroup(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            let result = yield incidentService_1.IncidentService.getIncidentByGroup(req);
+            let result = yield incidentService_1.IncidentService.getIncidentCountByGroup(req);
+            res.send(result);
+        });
+    }
+    getIncidentByAssignedTo(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield incidentService_1.IncidentService.getIncidentByAssignedTo(req);
+            res.send(result);
+        });
+    }
+    pagination(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield incidentService_1.IncidentService.pagination(req);
             res.send(result);
         });
     }
