@@ -38,7 +38,7 @@ class GroupService {
     static getAllGroups(req) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let allgroups = yield Model_1.groupModel.find().exec();
+                let allgroups = yield Model_1.groupModel.find().populate("GroupMembers").exec();
                 return responseModel_1.ResponseModel.getValidResponse(allgroups);
             }
             catch (e) {

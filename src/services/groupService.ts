@@ -29,7 +29,7 @@ export class GroupService{
 
     public static async getAllGroups(req: Request){
         try{
-           let allgroups= await groupModel.find().exec();
+           let allgroups= await groupModel.find().populate("GroupMembers").exec();
            return ResponseModel.getValidResponse(allgroups);
         }
         catch(e){
