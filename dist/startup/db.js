@@ -7,6 +7,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 class DB {
     static connectMongoDB() {
         let connectionString = "mongodb://localhost:27017/ITILDB";
+        // let connectionString: string = "mongodb+srv://Admin:admin@cluster0-glszr.mongodb.net/test?retryWrites=true&w=majority"
         mongoose_1.default.connect(connectionString, { useNewUrlParser: true })
             .then(() => { console.log("DB connected"); })
             .catch((err) => { console.log("DB connection failure"); });

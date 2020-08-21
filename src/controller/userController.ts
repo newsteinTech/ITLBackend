@@ -7,15 +7,15 @@ export class UserController{
 
     public async createUser(req: Request, res: Response, next: any){
 
-        let permission= await Authenticate.authorize(req, res, next, Actiontype.createUser);
+        /* let permission= await Authenticate.authorize(req, res, next, Actiontype.createUser);
         
         if(permission==true){ 
-        let result = await UserService.createUser(req);
+         */let result = await UserService.createUser(req);
         res.send(result);
-        }
+        /* }
         else{
             res.send("You don't have the right permissions")
-        } 
+        } */ 
 
         //once user is created, admin should send userid and password details to the coressponding user via email
     }
@@ -42,16 +42,16 @@ export class UserController{
     }
 
     public async getAllUsers(req: Request, res: Response, next: any){
-
+/* 
         let permission= await Authenticate.authorize(req, res, next, Actiontype.getAllUsers);
        
-        if(permission==true){ 
+        if(permission==true){  */
         let result = await UserService.getAllUsers(req);
         res.send(result);
-        }
+      /*   }
         else{
             res.send("You don't have the right permissions")
-        }
+        } */
     }
 
     public async getUserByUserId(req: Request, res: Response, next: any){

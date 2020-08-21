@@ -14,14 +14,15 @@ const actionType_1 = require("../datamodel/actionType");
 class UserController {
     createUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            let permission = yield authentication_1.Authenticate.authorize(req, res, next, actionType_1.Actiontype.createUser);
-            if (permission == true) {
-                let result = yield userService_1.UserService.createUser(req);
-                res.send(result);
-            }
-            else {
-                res.send("You don't have the right permissions");
-            }
+            /* let permission= await Authenticate.authorize(req, res, next, Actiontype.createUser);
+            
+            if(permission==true){
+             */ let result = yield userService_1.UserService.createUser(req);
+            res.send(result);
+            /* }
+            else{
+                res.send("You don't have the right permissions")
+            } */
             //once user is created, admin should send userid and password details to the coressponding user via email
         });
     }
@@ -46,14 +47,16 @@ class UserController {
     }
     getAllUsers(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            let permission = yield authentication_1.Authenticate.authorize(req, res, next, actionType_1.Actiontype.getAllUsers);
-            if (permission == true) {
-                let result = yield userService_1.UserService.getAllUsers(req);
-                res.send(result);
-            }
-            else {
-                res.send("You don't have the right permissions");
-            }
+            /*
+                    let permission= await Authenticate.authorize(req, res, next, Actiontype.getAllUsers);
+                   
+                    if(permission==true){  */
+            let result = yield userService_1.UserService.getAllUsers(req);
+            res.send(result);
+            /*   }
+              else{
+                  res.send("You don't have the right permissions")
+              } */
         });
     }
     getUserByUserId(req, res, next) {
